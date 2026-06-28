@@ -16,24 +16,62 @@ pub fn llm_resolve_model_registry_variant(
   request: ModelRegistryResolveRequest,
 ) -> Result<ModelRegistryResolveResponse> {
   let variants = llm_adapter::core::default_model_registry_variants();
-  let response = match llm_adapter::core::resolve_model_registry_variant(
+  match llm_adapter::core::resolve_model_registry_variant(
     &variants,
     request.backend_kind.as_deref(),
     request.model_id.as_str(),
   )
   .map_err(crate::llm::host::invalid_arg)?
   {
-    Some((variant, matched_by)) => ModelRegistryResolveResponse {
+    Some((variant, matched_by)) => Ok(ModelRegistryResolveResponse {
       variant: Some(to_contract_variant(variant)?),
       matched_by: Some(matched_by.to_string()),
+    }),
+    None => {
+      // Passthrough fallback: resolve unrecognized model IDs so arbitrary model
+      // names (e.g. text-embedding-3-large via LiteLLM) work without upstream
+      // llm_adapter registry entries.
+      Ok(ModelRegistryResolveResponse {
+        variant: Some(passthrough_embedding_variant(
+          request.backend_kind.as_deref(),
+          &request.model_id,
+        )),
+        matched_by: None,
+      })
     },
-    None => ModelRegistryResolveResponse {
-      variant: None,
-      matched_by: None,
-    },
-  };
+  }
+}
 
-  Ok(response)
+/// Build a minimal passthrough variant for an unrecognised embedding model so
+/// that model-resolution succeeds. The model ID is passed through as-is;
+/// protocol/request-layer are inferred from the backend kind.
+fn passthrough_embedding_variant(
+  backend_kind: Option<&str>,
+  model_id: &str,
+) -> ModelRegistryVariantContract {
+  let (protocol, request_layer) = match backend_kind {
+    Some("openai_chat") => ("chat_completions", "chat_completions"),
+    _ => ("chat_completions", "chat_completions"),
+  };
+  ModelRegistryVariantContract {
+    backend_kind: backend_kind.unwrap_or("openai_chat").to_string(),
+    canonical_key: model_id.to_string(),
+    raw_model_id: model_id.to_string(),
+    display_name: Some(model_id.to_string()),
+    aliases: vec![],
+    legacy_aliases: None,
+    capabilities: vec![crate::llm::core::contracts::CapabilityModelCapability {
+      input: vec!["text".to_string()],
+      output: vec!["embedding".to_string()],
+      attachments: None,
+      structured_attachments: None,
+      default_for_output_type: Some(true),
+    }],
+    protocol: Some(protocol.to_string()),
+    request_layer: Some(request_layer.to_string()),
+    route_overrides: None,
+    behavior_flags: None,
+  }
 }
 
 #[napi(catch_unwind)]

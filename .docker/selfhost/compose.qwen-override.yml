@@ -11,16 +11,19 @@ name: affine
 
 services:
   affine:
-    image: ghcr.io/toeverything/affine:${AFFINE_REVISION:-canary}
+    # Use the fork image with Qwen code changes
+    image: ghcr.io/vixwillems/affine:qwen
     environment:
       - DEPLOYMENT_TYPE=selfhosted
       - COPILOT_OPENAI_BASE_URL=${COPILOT_OPENAI_BASE_URL}
       - COPILOT_OPENAI_API_KEY=${COPILOT_OPENAI_API_KEY}
       - COPILOT_BYOK_ALLOW_CUSTOM_ENDPOINT=true
       - COPILOT_BYOK_ALLOWED_PROVIDERS=["openai"]
+      - AFFINE_INDEXER_ENABLED=true
 
   affine_migration:
-    image: ghcr.io/toeverything/affine:${AFFINE_REVISION:-canary}
+    # Use the fork image with Qwen code changes
+    image: ghcr.io/vixwillems/affine:qwen
     environment:
       - DEPLOYMENT_TYPE=selfhosted
       - COPILOT_OPENAI_BASE_URL=${COPILOT_OPENAI_BASE_URL}
