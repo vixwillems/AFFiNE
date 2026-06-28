@@ -601,6 +601,11 @@ export class ByokService {
     const apiKey = this.crypto.decrypt(encryptedApiKey);
     switch (provider) {
       case ByokProvider.openai:
+        return {
+          apiKey,
+          ...(endpoint ? { baseURL: endpoint } : {}),
+          oldApiStyle: true,
+        };
       case ByokProvider.gemini:
       case ByokProvider.anthropic:
         return { apiKey, ...(endpoint ? { baseURL: endpoint } : {}) };
