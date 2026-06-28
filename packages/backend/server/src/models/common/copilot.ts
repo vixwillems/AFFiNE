@@ -149,7 +149,7 @@ export type IgnoredDoc = {
   updatedBy: string | undefined;
 };
 
-export const EMBEDDING_DIMENSIONS = 1024;
+export const EMBEDDING_DIMENSIONS = 768;
 
 const FILTER_PREFIX = [
   'Title: ',

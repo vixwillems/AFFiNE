@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { QuotaStateService } from '../../../core/quota/state';
 import { PromptService } from '../prompt/service';
 
-export const DEFAULT_EMBEDDING_MODEL = 'gemini-embedding-001';
+export const DEFAULT_EMBEDDING_MODEL = 'text-embedding-3-large';
 export const DEFAULT_RERANK_MODEL = 'gpt-4o-mini';
 
 @Injectable()
