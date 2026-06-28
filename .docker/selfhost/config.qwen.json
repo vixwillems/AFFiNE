@@ -1,0 +1,21 @@
+{
+  "$schema": "https://github.com/toeverything/affine/releases/latest/download/config.schema.json",
+  "server": {
+    "name": "AFFiNE (Qwen AI)"
+  },
+  "copilot": {
+    "enabled": true,
+    "byok": {
+      "enabled": true,
+      "allowedProviders": ["openai"],
+      "allowCustomEndpoint": true
+    },
+    "providers": {
+      "openai": {
+        "apiKey": "REPLACE_WITH_LITELLM_API_KEY",
+        "baseURL": "http://192.168.0.253:1234/v1",
+        "oldApiStyle": true
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+# Qwen AI override for selfhosted AFFiNE deployment.
+# Use with the base compose.yml:
+#   docker compose -f compose.yml -f compose.qwen-override.yml up -d
+#
+# Required .env additions:
+#   AFFINE_REVISION=canary
+#   COPILOT_OPENAI_BASE_URL=http://192.168.0.253:1234/v1
+#   COPILOT_OPENAI_API_KEY=sk-liteLLM-proxy-key
+
+name: affine
+
+services:
+  affine:
+    image: ghcr.io/toeverything/affine:${AFFINE_REVISION:-canary}
+    environment:
+      - DEPLOYMENT_TYPE=selfhosted
+      - COPILOT_OPENAI_BASE_URL=${COPILOT_OPENAI_BASE_URL}
+      - COPILOT_OPENAI_API_KEY=${COPILOT_OPENAI_API_KEY}
+      - COPILOT_BYOK_ALLOW_CUSTOM_ENDPOINT=true
+      - COPILOT_BYOK_ALLOWED_PROVIDERS=["openai"]
+
+  affine_migration:
+    image: ghcr.io/toeverything/affine:${AFFINE_REVISION:-canary}
+    environment:
+      - DEPLOYMENT_TYPE=selfhosted
+      - COPILOT_OPENAI_BASE_URL=${COPILOT_OPENAI_BASE_URL}
+      - COPILOT_OPENAI_API_KEY=${COPILOT_OPENAI_API_KEY}
