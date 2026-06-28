@@ -449,8 +449,8 @@ fn plan_catalog(plan: &str, quantity: Option<i32>) -> PlanQuota {
       history_period: 30 * ONE_DAY_SECONDS,
       member_limit: Some(10),
       seat_quota: None,
-      copilot_action_limit: Some(10),
-      unlimited_copilot: false,
+      copilot_action_limit: None,
+      unlimited_copilot: true,
     },
     _ => PlanQuota {
       name: "free",
@@ -562,7 +562,7 @@ Hc3w7v4FGmoA5MNzzhrkho1ckDYw2wrX6zBnehFzcivURv80HherE2GQjg==\n\
       ("lifetime_pro", None, 10, 1024 * ONE_GB, Some(10)),
       ("team", Some(5), 5, 200 * ONE_GB, None),
       ("selfhost_team", Some(20), 20, 500 * ONE_GB, None),
-      ("selfhost_free", None, 10, 100 * ONE_GB, Some(10)),
+      ("selfhost_free", None, 10, 100 * ONE_GB, None),
     ];
 
     for (plan, quantity, seat_limit, storage_quota, copilot_limit) in cases {
