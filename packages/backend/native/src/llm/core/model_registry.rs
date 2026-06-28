@@ -61,8 +61,15 @@ fn passthrough_embedding_variant(
     aliases: vec![],
     legacy_aliases: None,
     capabilities: vec![crate::llm::core::contracts::CapabilityModelCapability {
-      input: vec!["text".to_string()],
-      output: vec!["embedding".to_string()],
+      input: vec!["text".to_string(), "image".to_string(), "audio".to_string(), "file".to_string()],
+      output: vec![
+        "text".to_string(),
+        "image".to_string(),
+        "object".to_string(),
+        "structured".to_string(),
+        "embedding".to_string(),
+        "rerank".to_string(),
+      ],
       attachments: None,
       structured_attachments: None,
       default_for_output_type: Some(true),
