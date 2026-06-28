@@ -767,4 +767,9 @@ await Promise.all([
   rmrf(path.join(APP_ROOT, 'ava.config.js')).catch(() => {}),
   rmrf(path.join(APP_ROOT, 'tsconfig.json')).catch(() => {}),
   rmrf(path.join(APP_ROOT, 'config.example.json')).catch(() => {}),
+  // Fix dual-package hazard: delete nested duplicate node_modules and graphql
+  // ESM entry point so GraphQLUpload.mjs and @nestjs/graphql use the same
+  // GraphQLScalarType class (both through index.js CJS).
+  rmrf(path.join(nodeModulesDir, 'node_modules')).catch(() => {}),
+  rmrf(path.join(nodeModulesDir, 'graphql', 'index.mjs')).catch(() => {}),
 ]);
