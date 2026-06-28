@@ -230,7 +230,7 @@ defineModuleConfig('copilot', {
   },
   'byok.allowCustomEndpoint': {
     desc: 'Whether workspace BYOK custom endpoints are accepted.',
-    default: false,
+    default: true,
     shape: z.boolean(),
   },
   'providers.profiles': {
@@ -248,6 +248,7 @@ defineModuleConfig('copilot', {
     default: {
       apiKey: '',
       baseURL: 'https://api.openai.com/v1',
+      oldApiStyle: true,
     },
     link: 'https://github.com/openai/openai-node',
   },
