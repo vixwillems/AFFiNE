@@ -132,7 +132,7 @@ export class PromptService {
     return {
       name: spec.name,
       action: spec.action,
-      model: spec.model,
+      model: spec.model === 'gemini-2.5-flash' ? 'gpt-5-mini' : spec.model,
       optionalModels: spec.optionalModels ?? [],
       config: spec.config ? structuredClone(spec.config) : undefined,
       paramKeys: Object.keys(params),
