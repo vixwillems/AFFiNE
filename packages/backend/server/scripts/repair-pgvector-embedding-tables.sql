@@ -25,7 +25,7 @@ BEGIN
       "file_id" VARCHAR NOT NULL,
       "chunk" INTEGER NOT NULL,
       "content" VARCHAR NOT NULL,
-      "embedding" vector(1024) NOT NULL,
+      "embedding" vector(768) NOT NULL,
       "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updated_at" TIMESTAMPTZ(3) NOT NULL,
       CONSTRAINT "ai_context_embeddings_pkey" PRIMARY KEY ("id")
@@ -56,7 +56,7 @@ BEGIN
       "doc_id" VARCHAR NOT NULL,
       "chunk" INTEGER NOT NULL,
       "content" VARCHAR NOT NULL,
-      "embedding" vector(1024) NOT NULL,
+      "embedding" vector(768) NOT NULL,
       "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "updated_at" TIMESTAMPTZ(3) NOT NULL,
       CONSTRAINT "ai_workspace_embeddings_pkey"
@@ -87,7 +87,7 @@ BEGIN
       "file_id" VARCHAR NOT NULL,
       "chunk" INTEGER NOT NULL,
       "content" VARCHAR NOT NULL,
-      "embedding" vector(1024) NOT NULL,
+      "embedding" vector(768) NOT NULL,
       "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT "ai_workspace_file_embeddings_pkey"
         PRIMARY KEY ("workspace_id", "file_id", "chunk")
@@ -117,7 +117,7 @@ BEGIN
       "blob_id" VARCHAR NOT NULL,
       "chunk" INTEGER NOT NULL,
       "content" VARCHAR NOT NULL,
-      "embedding" vector(1024) NOT NULL,
+      "embedding" vector(768) NOT NULL,
       "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT "ai_workspace_blob_embeddings_pkey"
         PRIMARY KEY ("workspace_id", "blob_id", "chunk")
